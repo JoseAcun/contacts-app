@@ -18,7 +18,7 @@ $error = null;
       $statemen->execute();
 
 
-      header("Location: index.php");
+      header("Location: home.php");
     }
   
     
