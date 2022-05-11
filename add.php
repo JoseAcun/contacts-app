@@ -24,8 +24,11 @@ $error = null;
       $statemen->bindParam(":phone_number",$_POST["phone_number"]);
       $statemen->execute();
 
+      $_SESSION["flash"] = ["message" => "contact {$_post['name']} added."];
+
 
       header("Location: home.php");
+      return;
     }
   
     

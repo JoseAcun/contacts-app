@@ -39,7 +39,7 @@ if (!isset($_SESSION["user"])) {
       $error = "Please fill all fields";
     }else{
         $name = $_POST["name"];
-      $phoneNumber = $_POST["phone_number"];
+        $phoneNumber = $_POST["phone_number"];
 
       $statement = $conn->prepare("UPDATE contacts SET name = :name, phone_number = :phone_number Where id = :id");
       $statement->execute([
@@ -48,8 +48,10 @@ if (!isset($_SESSION["user"])) {
         ":phone_number" => $_POST["phone_number"],
       ]);
 
+      $_SESSION["flash"] = ["message" => "contact {$_post['name']} updated."];
 
       header("Location: home.php");
+      return;
     }
   
     
