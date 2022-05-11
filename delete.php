@@ -2,6 +2,16 @@
 
 require "database.php";
 
+if (!isset($_SESSION["user"])) {
+  header("Location: login.php");
+  return;
+}
+
+// if (!isset($_SESSION["USER"])) {
+//   header("Location: login.php");
+//   return;
+// }
+
 $id = $_GET["id"];
 
 $statement = $conn->prepare("SELECT * FROM contacts WHERE id = :id");

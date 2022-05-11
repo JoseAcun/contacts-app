@@ -25,6 +25,15 @@ $error = null;
             ":email" => $_POST["email"],
             ":password" => password_hash($_POST["password"], PASSWORD_BCRYPT)
           ]);
+
+          $STATEMEN = $conn->prepare("SELECT * FROM users where email = :email LIMIT 1");
+          $STATEMEN->bindParam(":email", $_POST["email"]);
+          $STATEMEN->execute();
+          $user = $STATEMEN->fetch(pdo::FETCH_ASSOC);
+
+          session_start();
+          $_SESSION["user"] = $user;
+
           header("Location: home.php");
       }
       
