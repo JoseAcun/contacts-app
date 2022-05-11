@@ -24,7 +24,13 @@ if (!isset($_SESSION["user"])) {
     echo("HTTP 404 NOT FOUND");
     return;
   }
-  $contact =  $statement->fetch(PDO::FETCH_ASSOC);
+  $contact = $statement->fetch(PDO::FETCH_ASSOC);
+
+  if ($contact["user_id"] !== $_SESSION["user"]["id"]) {
+    http_response_code(403);
+    echo("HTTP 403 UNAUTORIZED");
+    return;
+  }
 
   $error = null;
 
