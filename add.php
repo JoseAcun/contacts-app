@@ -3,6 +3,8 @@
 
 require "database.php";
 
+session_start();
+
 if (!isset($_SESSION["user"])) {
   header("Location: login.php");
   return;
@@ -17,7 +19,7 @@ $error = null;
         $name = $_POST["name"];
       $phoneNumber = $_POST["phone_number"];
 
-      $statemen = $conn->prepare("INSERT INTO contacts (name, phone_number) VALUES (:name, :phone_number)");
+      $statemen = $conn->prepare("INSERT INTO contacts (user_id, name, phone_number) VALUES ({$_SESSION["user"]["id"]}, :name, :phone_number)");
       $statemen->bindParam(":name", $_POST["name"]);
       $statemen->bindParam(":phone_number",$_POST["phone_number"]);
       $statemen->execute();
