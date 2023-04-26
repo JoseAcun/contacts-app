@@ -1,9 +1,9 @@
 <?php
 
 $host = "localhost";
-$database = "contacts_app";
+$database = "Fincapp";
 $user = "root";
-$password = "";
+$password = "123";
 
 try {
   $conn = new PDO("mysql:host=$host;dbname=$database", $user, $password);

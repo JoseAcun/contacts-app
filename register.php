@@ -6,33 +6,33 @@ require "database.php";
 $error = null;
 
   if($_SERVER["REQUEST_METHOD"] == "POST"){
-    if (empty($_POST["name"]) || empty($_POST["email"]) || empty($_POST["password"])){
+    if (empty($_POST["usuario"]) || empty($_POST["contraseña"])){
       $error = "please filla all the fields";
-    } else if (!str_contains($_POST["email"], "@")){
-      $error = "Email format is incorrect";
+    // } else if (!str_contains($_POST["email"], "@")){
+    //   $error = "Email format is incorrect";
     } else {
-      $STATEMEN = $conn->prepare("SELECT * FROM users where email = :email");
-      $STATEMEN->bindParam(":email", $_POST["email"]);
+      $STATEMEN = $conn->prepare("SELECT * FROM administrador where usuario = :usuario");
+      $STATEMEN->bindParam(":usuario", $_POST["usuario"]);
       $STATEMEN->execute();
 
       if ($STATEMEN->rowCount() > 0) {
-        $error = "This email is taken";
+        $error = "This username alredy exist";
       } else{
         $conn
-          ->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)")
+          ->prepare("INSERT INTO administrador (usuario, contraseña) VALUES (:usuario, :contraseña)")
           ->execute([
-            ":name" => $_POST["name"],
-            ":email" => $_POST["email"],
-            ":password" => password_hash($_POST["password"], PASSWORD_BCRYPT)
+            ":usuario" => $_POST["usuario"],
+            // ":email" => $_POST["email"],
+            ":contraseña" => password_hash($_POST["contraseña"], PASSWORD_BCRYPT)
           ]);
 
-          $STATEMEN = $conn->prepare("SELECT * FROM users where email = :email LIMIT 1");
-          $STATEMEN->bindParam(":email", $_POST["email"]);
+          $STATEMEN = $conn->prepare("SELECT * FROM administrador where usuario = :usuario LIMIT 1");
+          $STATEMEN->bindParam(":usuario", $_POST["usuario"]);
           $STATEMEN->execute();
           $user = $STATEMEN->fetch(pdo::FETCH_ASSOC);
 
           session_start();
-          $_SESSION["user"] = $user;
+          $_SESSION["usuario"] = $user;
 
           header("Location: home.php");
       }
@@ -63,12 +63,12 @@ $error = null;
               </div>
             </div>
 
-            <div class="mb-3 row">
+            <!-- <div class="mb-3 row">
               <label for="email" class="col-md-4 col-form-label text-md-end">Email</label>
 
               <div class="col-md-6">
                 <input id="email" type="email" class="form-control" name="email" required autocomplete="email" autofocus>
-              </div>
+              </div> -->
             </div>
             <div class="mb-3 row">
               <label for="password" class="col-md-4 col-form-label text-md-end">Password</label>
